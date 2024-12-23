@@ -31,7 +31,7 @@ jobs:
 
       - name: Push to Amazon ECR
         run: |
-          docker push ${{ steps.ecr-login.outputs.registry }}/api-prueba-2-repo:latest
+          docker push ${{ steps.ecr-login.outputs.registry }}/prueba-2:latest
 
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

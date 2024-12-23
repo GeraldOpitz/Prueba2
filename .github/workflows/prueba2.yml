@@ -1,0 +1,37 @@
+name: Deploy to ECS
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials 
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+
+      - name: Build Docker Image
+        run: |
+          docker build -t api-prueba-2:latest .
+          docker tag api-prueba-2:latest ${{ steps.ecr-login.outputs.registry }}/api-prueba-2-repo:latest
+
+      - name: Push to Amazon ECR
+        run: |
+          docker push ${{ steps.ecr-login.outputs.registry }}/api-prueba-2-repo:latest
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ecs-task-def.json
+          service: service-prueba-2
+          cluster: cluster-prueba-2
+          wait-for-service-stability: true

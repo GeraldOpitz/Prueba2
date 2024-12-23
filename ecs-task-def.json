@@ -1,19 +1,25 @@
 {
-    "family": "my-task",
-    "containerDefinitions": [
-      {
-        "name": "my-container",
-        "image": "123456789012.dkr.ecr.region.amazonaws.com/api-docker-repo:latest",
-        "memory": 512,
-        "cpu": 256,
-        "essential": true,
-        "portMappings": [
-          {
-            "containerPort": 80,
-            "hostPort": 80
-          }
-        ]
-      }
-    ]
-  }
-  
+  "family": "api-prueba-2-task",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "api-prueba-2",
+      "image": "123456789012.dkr.ecr.us-east-1.amazonaws.com/prueba-2:latest",
+      "memory": "512",
+      "cpu": "256",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ]
+    }
+  ],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
+  "cpu": "256",
+  "memory": "512"
+}

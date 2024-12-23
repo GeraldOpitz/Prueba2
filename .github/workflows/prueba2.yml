@@ -26,8 +26,9 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t api-prueba-2:latest .
-          docker tag api-prueba-2:latest ${{ steps.ecr-login.outputs.registry }}/api-prueba-2-repo:latest
+          docker build -t prueba-2:latest .
+          docker images  # Verifica que la imagen se haya construido correctamente
+          docker tag prueba-2:latest ${{ steps.ecr-login.outputs.registry }}/prueba-2:latest
 
       - name: Push to Amazon ECR
         run: |
